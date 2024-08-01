@@ -44,11 +44,11 @@
   padding-bottom: 12px;
 }
 
-.pop-up__form-input--name {
+.pop-up__form-input-name {
   margin: 30px 0;
 }
 
-.pop-up__form-input--info {
+.pop-up__form-input-info {
   margin: 0 0 48px 0;
 }
 
@@ -64,12 +64,12 @@
   color: rgba(196, 196, 196, 1);
 }
 
-.pop-up__form-button--active {
+.pop-up__form-button-active {
   background-color: black;
   transition: background-color 0.3s ease-in-out;
 }
 
-.pop-up__form-button--active:hover {
+.pop-up__form-button-active:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
