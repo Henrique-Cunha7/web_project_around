@@ -1,10 +1,13 @@
+/* POP-UP SECTION */
 .pop-up {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
   position: fixed;
   width: 100%;
   height: 100%;
-  align-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .pop-up__box {
@@ -26,15 +29,14 @@
   margin: 0;
 }
 
-#pop-up__form {
+.pop-up__form {
   display: flex;
   align-items: center;
   flex-direction: column;
   width: 100%;
 }
 
-.form__edit-name,
-.form__edit-info {
+.pop-up__form-input {
   width: 100%;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
@@ -42,15 +44,15 @@
   padding-bottom: 12px;
 }
 
-.form__edit-name {
-  margin: 30px 0 30px 0;
+.pop-up__form-input--name {
+  margin: 30px 0;
 }
 
-.form__edit-info {
+.pop-up__form-input--info {
   margin: 0 0 48px 0;
 }
 
-.form__edit-button {
+.pop-up__form-button {
   width: 358px;
   height: 50px;
   border-radius: 2px 0px 0px 0px;
@@ -62,16 +64,16 @@
   color: rgba(196, 196, 196, 1);
 }
 
-.form__edit-button-active {
+.pop-up__form-button--active {
   background-color: black;
   transition: background-color 0.3s ease-in-out;
 }
 
-.form__edit-button-active:hover {
+.pop-up__form-button--active:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
-.form__close-button {
+.pop-up__close-button {
   position: absolute;
   top: -40px;
   right: -40px;
@@ -80,7 +82,7 @@
   transition: filter 0.3s ease-in-out;
 }
 
-.form__close-button:hover {
+.pop-up__close-button:hover {
   filter: opacity(50%);
 }
 
@@ -88,24 +90,21 @@
   display: none;
 }
 
+/* Media Queries */
 @media (max-width: 600px) {
   .pop-up__box {
     width: 80%;
     height: 320px;
   }
 
-  .form__edit-button {
+  .pop-up__form-button {
     width: 100%;
     height: 50px;
   }
 
-  .form__close-button {
-    position: absolute;
+  .pop-up__close-button {
     top: -40px;
     right: -10px;
-    height: 30px;
-    cursor: pointer;
-    transition: filter 0.3s ease-in-out;
   }
 }
 
