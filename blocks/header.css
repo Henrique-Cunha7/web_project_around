@@ -1,0 +1,29 @@
+.header {
+  width: 100%;
+}
+
+.header__nav {
+  height: 74px;
+  width: 100%;
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+  margin: 45px 0 40px 0;
+}
+
+.header__logo {
+  width: 173px;
+  height: 33px;
+}
+
+@media (max-width: 600px) {
+  .header__nav {
+    height: 56px;
+    border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+    margin: 28px 0 40px 0;
+  }
+
+  .header__logo {
+    width: 120px;
+    height: 24px;
+    margin-left: 25px;
+  }
+}

@@ -2,53 +2,52 @@
 <html lang="pt">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Document</title>
-  <link rel="stylesheet" href="./pages/index.css">
-  <meta name="author" content="Henrique Cunha">
-  <meta name="description" content="Sprint para aprendizado de DOM">
-  <meta name="keywords" content="tripleten, mediaqueries, sprint, html, css, estudo">
+  <link rel="stylesheet" href="./pages/index.css" />
+  <meta name="author" content="Henrique Cunha" />
+  <meta name="description" content="Sprint para aprendizado de DOM" />
+  <meta name="keywords" content="tripleten, mediaqueries, sprint, html, css, estudo" />
 </head>
 
 <body>
-
   <section class="pop-up disable">
     <div class="pop-up__box">
       <h2 class="pop-up__box-text">Editar Perfil</h2>
       <form id="pop-up__form">
-        <input type="text" name="nome" class="form__edit-name" placeholder="Nome">
-        <input type="text" name="sobre mim" class="form__edit-info" placeholder="Sobre mim">
-        <button type="submit" class="form__edit-button ">Salvar</button>
+        <input type="text" name="nome" class="form__edit-name" placeholder="Nome" />
+        <input type="text" name="sobre mim" class="form__edit-info" placeholder="Sobre mim" />
+        <button type="submit" class="form__edit-button">Salvar</button>
       </form>
-      <img src="./images/fechar.png" alt="Close Button" class="form__close-button">
+      <img src="./images/fechar.png" alt="Close Button" class="form__close-button" />
     </div>
   </section>
 
-
   <div class="page">
-
     <!-- HEADER SECTION  -->
 
     <header class="header">
-
       <nav class="header__nav">
-        <img src="./images/LOGO.png" alt="Logo AroundUS" class="header__logo">
+        <img src="./images/LOGO.png" alt="Logo AroundUS" class="header__logo" />
       </nav>
 
       <div class="profile">
-        <img src="./images/profile image.png" alt="Profile Image" class="profile__image">
+        <img src="./images/profile image.png" alt="Profile Image" class="profile__image" />
 
         <div class="profile__info">
           <div class="profile__info-name">
             <h1 class="profile__info-user">Henrique Cunha</h1>
-            <button class="profile__edit-button"><img src="./images/button Edit.png" alt="edit profile button"></button>
+            <button class="profile__edit-button">
+              <img src="./images/button Edit.png" alt="edit profile button" />
+            </button>
           </div>
           <p class="profile__description">Explorador</p>
         </div>
 
-        <button class="profile__add-post"><img src="./images/add button.png" alt="add button"
-            class="profile__add-post-add-button"></button>
+        <button class="profile__add-post">
+          <img src="./images/add button.png" alt="add button" class="profile__add-post-add-button" />
+        </button>
       </div>
     </header>
 
@@ -56,86 +55,66 @@
 
     <main class="content">
       <section class="card-grid">
-
         <!-- VALE DE YOSEMITE CARD  -->
         <div class="card">
-          <img src="./images/yosemite.jpg" alt="Vale de Yosemite image" class="card__image">
+          <img src="./images/yosemite.jpg" alt="Vale de Yosemite image" class="card__image" />
           <div class="card__info">
-            <h2 class="card__name">
-              Vale de Yosemite
-            </h2>
-            <img src="./images/likeimage.png" alt="like button" class="card__like">
+            <h2 class="card__name">Vale de Yosemite</h2>
+            <img src="./images/likeimage.png" alt="like button" class="card__like" />
           </div>
         </div>
 
         <!-- LAGO LOUISE CARD  -->
         <div class="card">
-          <img src="./images/louise.png" alt="Lago Louise image" class="card__image">
+          <img src="./images/louise.png" alt="Lago Louise image" class="card__image" />
           <div class="card__info">
-            <h2 class="card__name">
-              Lago Louise
-            </h2>
-            <img src="./images/likeimage.png" alt="like button" class="card__like">
+            <h2 class="card__name">Lago Louise</h2>
+            <img src="./images/likeimage.png" alt="like button" class="card__like" />
           </div>
         </div>
 
         <!-- Montanhas Carealgumacoisa card  -->
         <div class="card">
-          <img src="./images/montanhas.png" alt="Montanhas Carealgumacoisa image" class="card__image">
+          <img src="./images/montanhas.png" alt="Montanhas Carealgumacoisa image" class="card__image" />
           <div class="card__info">
-            <h2 class="card__name">
-              Montanhas Carealgumacoisa
-            </h2>
-            <img src="./images/likeimage.png" alt="like button" class="card__like">
+            <h2 class="card__name">Montanhas Carealgumacoisa</h2>
+            <img src="./images/likeimage.png" alt="like button" class="card__like" />
           </div>
         </div>
 
         <!-- Latemar Card  -->
         <div class="card">
-          <img src="./images/latemar.png" alt="Latemar image" class="card__image">
+          <img src="./images/latemar.png" alt="Latemar image" class="card__image" />
           <div class="card__info">
-            <h2 class="card__name">
-              Latemar
-            </h2>
-            <img src="./images/likeimage.png" alt="like button" class="card__like">
+            <h2 class="card__name">Latemar</h2>
+            <img src="./images/likeimage.png" alt="like button" class="card__like" />
           </div>
         </div>
 
         <!-- Vanoise National card  -->
         <div class="card">
-          <img src="./images/vanoise.png" alt="Vanoise National image" class="card__image">
+          <img src="./images/vanoise.png" alt="Vanoise National image" class="card__image" />
           <div class="card__info">
-            <h2 class="card__name">
-              Vanoise National
-            </h2>
-            <img src="./images/likeimage.png" alt="like button" class="card__like">
+            <h2 class="card__name">Vanoise National</h2>
+            <img src="./images/likeimage.png" alt="like button" class="card__like" />
           </div>
         </div>
 
         <!-- Lago di Braies card  -->
         <div class="card">
-          <img src="./images/di braies.png" alt="Lago di Braies image" class="card__image">
+          <img src="./images/di braies.png" alt="Lago di Braies image" class="card__image" />
           <div class="card__info">
-            <h2 class="card__name">
-              Lago di Braies
-            </h2>
-            <img src="./images/likeimage.png" alt="like button" class="card__like">
+            <h2 class="card__name">Lago di Braies</h2>
+            <img src="./images/likeimage.png" alt="like button" class="card__like" />
           </div>
         </div>
-
       </section>
     </main>
 
-
-
-
     <!-- FOOTER SECTION  -->
     <footer class="footer">
-
+      <p class="footer__text">© 2024 Around The U.S.</p>
     </footer>
-
-
-
   </div>
 
   <script src="./script.js"></script>
