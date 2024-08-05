@@ -30,6 +30,7 @@
 }
 
 .pop-up__form {
+  font-family: "Inter";
   display: flex;
   align-items: center;
   flex-direction: column;

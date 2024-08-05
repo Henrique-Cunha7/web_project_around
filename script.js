@@ -2,8 +2,8 @@
 
 let formElement = document.querySelector("#pop-up__form");
 
-let nameInput = document.querySelector(".form__edit-name");
-let infoInput = document.querySelector(".form__edit-info");
+let nameInput = document.querySelector(".pop-up__form-input-name");
+let infoInput = document.querySelector(".pop-up__form-input-info");
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
@@ -39,7 +39,7 @@ editButton.addEventListener("click", function () {
 
 // BOTAO X DO POP UP FECHAR
 
-let closeButton = document.querySelector(".form__close-button");
+let closeButton = document.querySelector(".pop-up__close-button");
 
 closeButton.addEventListener("click", function () {
   popUp.classList.add("disable");
@@ -47,13 +47,13 @@ closeButton.addEventListener("click", function () {
 
 // BOTAO SUBMIT MUDAR DE CLASSE COM TEXTO ESCRITO
 
-let submitButton = document.querySelector(".form__edit-button");
+let submitButton = document.querySelector(".pop-up__form-button");
 
 function checkInputs() {
   if (nameInput.value !== "" && infoInput.value !== "") {
-    submitButton.classList.add("form__edit-button-active");
+    submitButton.classList.add("pop-up__form-button-active");
   } else {
-    submitButton.classList.remove("form__edit-button-active");
+    submitButton.classList.remove("pop-up__form-button-active");
   }
 }
 
