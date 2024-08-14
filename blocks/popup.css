@@ -50,11 +50,13 @@
   padding-bottom: 12px;
 }
 
-.pop-up__input_type_title {
+.pop-up__input_type_title,
+.pop-up__form-input-name {
   margin: 30px 0;
 }
 
-.pop-up__input_type_link {
+.pop-up__input_type_link,
+.pop-up__form-input-info {
   margin: 0 0 48px 0;
 }
 
