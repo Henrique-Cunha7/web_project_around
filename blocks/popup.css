@@ -10,6 +10,17 @@
   justify-content: center;
 }
 
+.add-post-pop-up {
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .pop-up__box {
   width: 430px;
   height: 330px;

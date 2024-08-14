@@ -17,6 +17,7 @@
   background-color: white;
   color: black;
   margin: auto;
+  position: relative;
 }
 
 .card__image {
@@ -51,6 +52,20 @@
 }
 
 .card__like:hover {
+  filter: opacity(50%);
+}
+
+.card__delete-button {
+  cursor: pointer;
+  height: 19px;
+  width: 18px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  transition: filter 0.3s ease-in-out;
+}
+
+.card__delete-button:hover {
   filter: opacity(50%);
 }
 
