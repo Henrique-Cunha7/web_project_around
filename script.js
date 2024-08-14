@@ -59,7 +59,7 @@ function checkInputs() {
 
 nameInput.addEventListener("input", checkInputs);
 
-// Vetor com os dados iniciais dos cartões
+// OBJETOS DEFINIDOS PELA TRIPLETEN
 const initialCards = [
   {
     name: "Vale de Yosemite",
@@ -87,7 +87,7 @@ const initialCards = [
   }
 ];
 
-// Função para criar um cartão
+// FUNCAO QUE CRIA TODO O CARD POR DOM
 function createCard(cardData) {
   const card = document.createElement("div");
   card.classList.add("card");
@@ -120,7 +120,7 @@ function createCard(cardData) {
   card.appendChild(image);
   card.appendChild(info);
 
-  // Adiciona eventos ao criar o card
+
   addImageClickListener(image, name.textContent);
   addDeleteClickListener(deleteButton);
   addLikeClickListener(likeButton);
@@ -128,7 +128,7 @@ function createCard(cardData) {
   return card;
 }
 
-// Função para adicionar os cartões ao DOM
+// ADICIONA OS CARDS NA PAGINA
 function addCardsToPage() {
   const cardGrid = document.querySelector(".card-grid");
   initialCards.forEach(cardData => {
@@ -137,7 +137,18 @@ function addCardsToPage() {
   });
 }
 
-// Função para adicionar o evento de clique na imagem
+// FUNÇÃO DE INICIAR PAGINA COM OS CARD JA DETERMINADOS ALI EM CIMA
+function initializePage() {
+  addCardsToPage();
+}
+
+document.addEventListener("DOMContentLoaded", initializePage);
+
+
+
+
+
+// ABRIR POPUP IMAGEM
 function addImageClickListener(image, text) {
   image.addEventListener("click", function () {
     let imagePopUp = document.querySelector(".image-pop-up");
@@ -150,7 +161,16 @@ function addImageClickListener(image, text) {
   });
 }
 
-// Função para adicionar o evento de exclusão
+//  FECHAR POPUP DE IMAGEM
+let closeImageButton = document.querySelector(".image-pop-up__close-button");
+
+closeImageButton.addEventListener("click", function () {
+  let imagePopUp = document.querySelector(".image-pop-up");
+  imagePopUp.classList.add("disable");
+});
+
+
+// EXLUIR CARD
 function addDeleteClickListener(deleteButton) {
   deleteButton.addEventListener("click", function () {
     const card = deleteButton.closest(".card");
@@ -158,7 +178,7 @@ function addDeleteClickListener(deleteButton) {
   });
 }
 
-// Função para adicionar o evento de like
+// BOTAO DE LIKE
 function addLikeClickListener(likeButton) {
   likeButton.addEventListener("click", function () {
     const currentSrc = likeButton.src;
@@ -166,17 +186,62 @@ function addLikeClickListener(likeButton) {
   });
 }
 
-// Inicializa a página
-function initializePage() {
-  addCardsToPage();
+
+
+// POPUP ADD POST
+
+const addPostButton = document.querySelector(".profile__add-post");
+const addPostPopUp = document.querySelector(".add-post-pop-up");
+
+addPostButton.addEventListener("click", function () {
+  addPostPopUp.classList.remove("disable");
+});
+
+const closeAddPostButton = addPostPopUp.querySelector(".pop-up__close-button");
+closeAddPostButton.addEventListener("click", function () {
+  addPostPopUp.classList.add("disable");
+});
+
+
+
+
+
+// ADICIONAR CARD
+
+const addPostForm = document.querySelector("#add-post-form");
+const postTitleInput = document.querySelector("input[name='titulo']");
+const postLinkInput = document.querySelector("input[name='link']");
+const addPostSubmitButton = document.querySelector(".pop-up__post-form-button");
+
+function checkAddPostInputs() {
+  if (postTitleInput.value !== "" && postLinkInput.value !== "") {
+    addPostSubmitButton.classList.add("pop-up__post-form-button-active");
+  } else {
+    addPostSubmitButton.classList.remove("pop-up__post-form-button-active");
+  }
 }
 
-document.addEventListener("DOMContentLoaded", initializePage);
 
-// Evento para fechar o pop-up de imagem
-let closeImageButton = document.querySelector(".image-pop-up__close-button");
+postTitleInput.addEventListener("input", checkAddPostInputs);
+postLinkInput.addEventListener("input", checkAddPostInputs);
 
-closeImageButton.addEventListener("click", function () {
-  let imagePopUp = document.querySelector(".image-pop-up");
-  imagePopUp.classList.add("disable");
+// FUNCAO ADICIONANDO CARD
+addPostForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const newCardData = {
+    name: postTitleInput.value,
+    link: postLinkInput.value
+  };
+
+  const cardGrid = document.querySelector(".card-grid");
+  const newCard = createCard(newCardData);
+  cardGrid.prepend(newCard); // CARD NOVO NO INICIO
+
+  // LIMPA E FECHA O POPUP
+  postTitleInput.value = "";
+  postLinkInput.value = "";
+  addPostSubmitButton.classList.remove("pop-up__post-form-button-active");
+  addPostPopUp.classList.add("disable");
 });
+
