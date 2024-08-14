@@ -33,7 +33,7 @@
 }
 
 .pop-up__form,
-.pop-up__form_type_add-post {
+.pop-up__form-type-add-post {
   font-family: "Inter";
   display: flex;
   align-items: center;
