@@ -63,28 +63,28 @@ nameInput.addEventListener("input", checkInputs);
 const initialCards = [
   {
     name: "Vale de Yosemite",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg"
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
   },
   {
     name: "Lago Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg"
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
   },
   {
     name: "Montanhas Carecas",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg"
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
   },
   {
     name: "Latemar",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg"
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
   },
   {
     name: "Parque Nacional da Vanoise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg"
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
   },
   {
     name: "Lago di Braies",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg"
-  }
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
+  },
 ];
 
 // FUNCAO QUE CRIA TODO O CARD POR DOM
@@ -120,7 +120,6 @@ function createCard(cardData) {
   card.appendChild(image);
   card.appendChild(info);
 
-
   addImageClickListener(image, name.textContent);
   addDeleteClickListener(deleteButton);
   addLikeClickListener(likeButton);
@@ -131,7 +130,7 @@ function createCard(cardData) {
 // ADICIONA OS CARDS NA PAGINA
 function addCardsToPage() {
   const cardGrid = document.querySelector(".card-grid");
-  initialCards.forEach(cardData => {
+  initialCards.forEach((cardData) => {
     const card = createCard(cardData);
     cardGrid.appendChild(card);
   });
@@ -143,10 +142,6 @@ function initializePage() {
 }
 
 document.addEventListener("DOMContentLoaded", initializePage);
-
-
-
-
 
 // ABRIR POPUP IMAGEM
 function addImageClickListener(image, text) {
@@ -169,7 +164,6 @@ closeImageButton.addEventListener("click", function () {
   imagePopUp.classList.add("disable");
 });
 
-
 // EXLUIR CARD
 function addDeleteClickListener(deleteButton) {
   deleteButton.addEventListener("click", function () {
@@ -182,11 +176,11 @@ function addDeleteClickListener(deleteButton) {
 function addLikeClickListener(likeButton) {
   likeButton.addEventListener("click", function () {
     const currentSrc = likeButton.src;
-    likeButton.src = currentSrc.includes("likeimage.png") ? "./images/likedimage.png" : "./images/likeimage.png";
+    likeButton.src = currentSrc.includes("likeimage.png")
+      ? "./images/likedimage.png"
+      : "./images/likeimage.png";
   });
 }
-
-
 
 // POPUP ADD POST
 
@@ -201,10 +195,6 @@ const closeAddPostButton = addPostPopUp.querySelector(".pop-up__close-button");
 closeAddPostButton.addEventListener("click", function () {
   addPostPopUp.classList.add("disable");
 });
-
-
-
-
 
 // ADICIONAR CARD
 
@@ -221,7 +211,6 @@ function checkAddPostInputs() {
   }
 }
 
-
 postTitleInput.addEventListener("input", checkAddPostInputs);
 postLinkInput.addEventListener("input", checkAddPostInputs);
 
@@ -231,7 +220,7 @@ addPostForm.addEventListener("submit", function (event) {
 
   const newCardData = {
     name: postTitleInput.value,
-    link: postLinkInput.value
+    link: postLinkInput.value,
   };
 
   const cardGrid = document.querySelector(".card-grid");
@@ -244,4 +233,3 @@ addPostForm.addEventListener("submit", function (event) {
   addPostSubmitButton.classList.remove("pop-up__post-form-button-active");
   addPostPopUp.classList.add("disable");
 });
-

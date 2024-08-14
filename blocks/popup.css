@@ -52,8 +52,7 @@
 }
 
 .pop-up__form-input,
-.pop-up__post-form-input
- {
+.pop-up__post-form-input {
   width: 100%;
   border: none;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
