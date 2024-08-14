@@ -1,3 +1,4 @@
+
 .image-pop-up {
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
@@ -9,10 +10,14 @@
   justify-content: center;
 }
 
+.image-pop-up__box {
+  position: relative; /* Adiciona essa linha */
+  display: inline-block;
+}
+
 .image-pop-up__image {
   max-width: 75vw;
   max-height: 75vh;
-
   border-radius: 20px 20px 20px 20px;
   object-fit: cover;
 }

@@ -185,13 +185,13 @@ function addLikeClickListener(likeButton) {
 // POPUP ADD POST
 
 const addPostButton = document.querySelector(".profile__add-post");
-const addPostPopUp = document.querySelector(".add-post-pop-up");
+const addPostPopUp = document.querySelector(".pop-up_type_add-post");
 
 addPostButton.addEventListener("click", function () {
   addPostPopUp.classList.remove("disable");
 });
 
-const closeAddPostButton = addPostPopUp.querySelector(".pop-up__close-button");
+const closeAddPostButton = addPostPopUp.querySelector(".pop-up__close-button_type_add-post");
 closeAddPostButton.addEventListener("click", function () {
   addPostPopUp.classList.add("disable");
 });
@@ -201,13 +201,13 @@ closeAddPostButton.addEventListener("click", function () {
 const addPostForm = document.querySelector("#add-post-form");
 const postTitleInput = document.querySelector("input[name='titulo']");
 const postLinkInput = document.querySelector("input[name='link']");
-const addPostSubmitButton = document.querySelector(".pop-up__post-form-button");
+const addPostSubmitButton = document.querySelector(".pop-up__button_type_add-post");
 
 function checkAddPostInputs() {
   if (postTitleInput.value !== "" && postLinkInput.value !== "") {
-    addPostSubmitButton.classList.add("pop-up__post-form-button-active");
+    addPostSubmitButton.classList.add("pop-up__button_type_add-post-active");
   } else {
-    addPostSubmitButton.classList.remove("pop-up__post-form-button-active");
+    addPostSubmitButton.classList.remove("pop-up__button_type_add-post-active");
   }
 }
 
@@ -230,6 +230,13 @@ addPostForm.addEventListener("submit", function (event) {
   // LIMPA E FECHA O POPUP
   postTitleInput.value = "";
   postLinkInput.value = "";
-  addPostSubmitButton.classList.remove("pop-up__post-form-button-active");
+  addPostSubmitButton.classList.remove("pop-up__button_type_add-post-active");
+  addPostPopUp.classList.add("disable");
+});
+
+
+
+
+addPostCloseButton.addEventListener("click", function () {
   addPostPopUp.classList.add("disable");
 });
