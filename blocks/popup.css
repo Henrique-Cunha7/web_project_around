@@ -73,14 +73,14 @@
   color: rgba(196, 196, 196, 1);
 }
 
-.pop-up__form-button_active,
-.pop-up__button_type_add-post_active {
+.pop-up__form-button-active,
+.pop-up__button_type_add-post-active {
   background-color: black;
   transition: background-color 0.3s ease-in-out;
 }
 
-.pop-up__form-button_active:hover,
-.pop-up__button_type_add-post_active:hover {
+.pop-up__form-button-active:hover,
+.pop-up__button_type_add-post-active:hover {
   background-color: rgba(0, 0, 0, 0.8);
 }
 
