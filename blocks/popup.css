@@ -14,7 +14,7 @@
 .pop-up__box,
 .pop-up__box_type_add-post {
   width: 430px;
-  height: 330px;
+  height: auto;
   background-color: white;
   margin: auto;
   padding: 36px;
@@ -52,12 +52,12 @@
 
 .pop-up__input_type_title,
 .pop-up__form-input-name {
-  margin: 30px 0;
+  margin: 30px 0 0 0;
 }
 
 .pop-up__input_type_link,
 .pop-up__form-input-info {
-  margin: 0 0 48px 0;
+  margin: 30px 0 0 0;
 }
 
 .pop-up__form-button,
@@ -71,6 +71,7 @@
   line-height: 21px;
   text-align: center;
   color: rgba(196, 196, 196, 1);
+  margin-top: 48px;
 }
 
 .pop-up__form-button-active,
@@ -101,6 +102,16 @@
 
 .disable {
   display: none;
+}
+
+/* Error Messages */
+.error-message {
+  font-size: 12px;
+  color: red;
+  margin-top: 5px;
+  text-align: left;
+  width: 100%;
+  display: none; /* Escondido por padrão */
 }
 
 /* Media Queries */
