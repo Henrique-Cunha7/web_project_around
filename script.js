@@ -5,12 +5,12 @@ const validationConfig = {
   formSelector: '.pop-up__form',
   inputSelector: '.pop-up__form-input',
   submitButtonSelector: '.pop-up__form-button',
+  inactiveButtonClass: 'pop-up__form-button-inactive', // classe para o botão inativo
   errorClass: 'error-message'
 };
 
 // Habilitar a validação
 enableValidation(validationConfig);
-
 
 // SELETORES DO FORMULÁRIO
 const formElement = document.querySelector("#pop-up__form");
@@ -20,84 +20,6 @@ const submitButton = document.querySelector(".pop-up__form-button");
 const popUp = document.querySelector(".pop-up");
 const popUpCloseButton = document.querySelector(".pop-up__close-button");
 const editButton = document.querySelector(".profile__edit-button");
-
-// Funções para exibir e remover mensagens de erro
-function showError(input, message) {
-  const errorSpan = document.getElementById(`${input.name}-error`);
-  if (errorSpan) {
-    errorSpan.textContent = message;
-    errorSpan.style.display = 'block';
-  }
-}
-
-function hideError(input) {
-  const errorSpan = document.getElementById(`${input.name}-error`);
-  if (errorSpan) {
-    errorSpan.textContent = '';
-    errorSpan.style.display = 'none';
-  }
-}
-
-// Função para validar input com base nas regras
-function validateInput(input) {
-  const minLength = parseInt(input.getAttribute('minlength'), 10);
-  const maxLength = parseInt(input.getAttribute('maxlength'), 10);
-  const valueLength = input.value.length;
-
-  if (valueLength < minLength) {
-    showError(input, `O campo deve ter pelo menos ${minLength} caracteres.`);
-    return false;
-  } else if (valueLength > maxLength) {
-    showError(input, `O campo deve ter no máximo ${maxLength} caracteres.`);
-    return false;
-  } else if (!input.validity.valid) {
-    showError(input, 'Este campo é obrigatório');
-    return false;
-  } else {
-    hideError(input);
-    return true;
-  }
-}
-
-// Função para alterar estado do botão submit baseado nos inputs
-function checkInputs() {
-  const isNameValid = validateInput(nameInput);
-  const isInfoValid = validateInput(infoInput);
-
-  if (isNameValid && isInfoValid) {
-    submitButton.classList.add("pop-up__form-button-active");
-  } else {
-    submitButton.classList.remove("pop-up__form-button-active");
-  }
-}
-
-// Função para validar todos os inputs e exibir mensagens de erro se necessário
-function validateForm() {
-  const isNameValid = validateInput(nameInput);
-  const isInfoValid = validateInput(infoInput);
-
-  return isNameValid && isInfoValid;
-}
-
-// Função para submissão do formulário de perfil
-function handleProfileFormSubmit(evt) {
-  evt.preventDefault();
-
-  const isValid = validateForm();
-
-  if (isValid) {
-    const profileName = document.querySelector(".profile__info-user");
-    const profileDescription = document.querySelector(".profile__description");
-
-    profileName.textContent = nameInput.value;
-    profileDescription.textContent = infoInput.value;
-
-    formElement.reset(); // Limpa o formulário
-
-    closeProfilePopup(); // Fecha o pop-up
-    submitButton.classList.remove("pop-up__form-button-active");
-  }
-}
 
 // Função para fechar todos os pop-ups
 function closeAllPopups() {
@@ -128,9 +50,6 @@ function handleClickOutside(event) {
 // Função para abrir pop-up de perfil
 function openProfilePopup() {
   popUp.classList.remove("disable");
-  hideError(nameInput);
-  hideError(infoInput);
-
   document.addEventListener("keydown", handleEscapeKey);
   document.addEventListener("click", handleClickOutside);
 }
@@ -141,12 +60,22 @@ function closeProfilePopup() {
 }
 
 // Event Listeners popup perfil
-formElement.addEventListener("submit", handleProfileFormSubmit);
+formElement.addEventListener("submit", function(evt) {
+  evt.preventDefault();
+  if (formElement.checkValidity()) {
+    const profileName = document.querySelector(".profile__info-user");
+    const profileDescription = document.querySelector(".profile__description");
+
+    profileName.textContent = nameInput.value;
+    profileDescription.textContent = infoInput.value;
+
+    formElement.reset(); // Limpa o formulário
+    closeProfilePopup(); // Fecha o pop-up
+  }
+});
+
 editButton.addEventListener("click", openProfilePopup);
 popUpCloseButton.addEventListener("click", closeProfilePopup);
-
-nameInput.addEventListener("input", checkInputs);
-infoInput.addEventListener("input", checkInputs);
 
 // Funções para cards
 const initialCards = [
@@ -313,43 +242,62 @@ function hideAddPostError(input) {
 
 // Função para validar input no formulário de adicionar post
 function validateAddPostInput(input) {
-  const minLength = parseInt(input.getAttribute('minlength'), 10);
-  const maxLength = parseInt(input.getAttribute('maxlength'), 10);
-  const valueLength = input.value.length;
+  const minLength = parseInt(input.getAttribute("minlength"), 10);
+  const maxLength = parseInt(input.getAttribute("maxlength"), 10);
+  const value = input.value.trim();
 
-  if (input.name === "link" && !isValidURL(input.value)) {
-    showAddPostError(input, 'A URL não é válida.');
-    return false;
-  }
-
-  if (valueLength < minLength) {
-    showAddPostError(input, `O campo deve ter pelo menos ${minLength} caracteres.`);
-    return false;
-  } else if (valueLength > maxLength) {
-    showAddPostError(input, `O campo deve ter no máximo ${maxLength} caracteres.`);
-    return false;
+  if (value.length < minLength) {
+    showAddPostError(input, `Deve ter pelo menos ${minLength} caracteres.`);
+  } else if (value.length > maxLength) {
+    showAddPostError(input, `Deve ter no máximo ${maxLength} caracteres.`);
   } else {
     hideAddPostError(input);
-    return true;
   }
 }
 
-// Função para checar o estado do botão de submit no formulário de adicionar post
-function checkAddPostInputs() {
-  const isTitleValid = validateAddPostInput(postTitleInput);
-  const isLinkValid = validateAddPostInput(postLinkInput);
-
-  if (isTitleValid && isLinkValid) {
-    addPostSubmitButton.classList.add("pop-up__button_type_add-post-active");
+// Validação ao digitar nos campos de adicionar post
+postTitleInput.addEventListener("input", () => validateAddPostInput(postTitleInput));
+postLinkInput.addEventListener("input", () => {
+  if (!isValidURL(postLinkInput.value)) {
+    showAddPostError(postLinkInput, "URL inválida.");
   } else {
-    addPostSubmitButton.classList.remove("pop-up__button_type_add-post-active");
+    hideAddPostError(postLinkInput);
+  }
+});
+
+// Adicionar novo post
+addPostForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const title = postTitleInput.value;
+  const link = postLinkInput.value;
+
+  if (title && isValidURL(link)) {
+    const newCardData = { name: title, link: link };
+    const newCard = createCard(newCardData);
+    document.querySelector(".card-grid").appendChild(newCard);
+    addPostForm.reset(); // Limpa o formulário
+    closeAllPopups(); // Fecha o pop-up
+  } else {
+    // Exibir mensagens de erro
+    if (!title) showAddPostError(postTitleInput, "O título não pode estar vazio.");
+    if (!isValidURL(link)) showAddPostError(postLinkInput, "URL inválida.");
+  }
+});
+
+
+function checkInputs() {
+  const isNameValid = validateInput(nameInput);
+  const isInfoValid = validateInput(infoInput);
+
+  if (isNameValid && isInfoValid) {
+    submitButton.classList.add("pop-up__form-button-active");
+    submitButton.disabled = false; // Ativa o botão
+  } else {
+    submitButton.classList.remove("pop-up__form-button-active");
+    submitButton.disabled = true; // Desativa o botão
   }
 }
 
-postTitleInput.addEventListener("input", checkAddPostInputs);
-postLinkInput.addEventListener("input", checkAddPostInputs);
-
-// Função para adicionar novo card
 function handleAddPostSubmit(evt) {
   evt.preventDefault();
 
@@ -370,8 +318,3 @@ function handleAddPostSubmit(evt) {
     addPostPopUp.classList.add("disable");
   }
 }
-
-addPostForm.addEventListener("submit", handleAddPostSubmit);
-
-
-// VALIDAÇÕES
