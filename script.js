@@ -5,7 +5,7 @@ const validationConfig = {
   formSelector: '.pop-up__form',
   inputSelector: '.pop-up__form-input',
   submitButtonSelector: '.pop-up__form-button',
-  inactiveButtonClass: 'pop-up__form-button-inactive', // classe para o botão inativo
+  inactiveButtonClass: 'pop-up__form-button-inactive',
   errorClass: 'error-message'
 };
 
@@ -274,7 +274,7 @@ addPostForm.addEventListener("submit", (event) => {
   if (title && isValidURL(link)) {
     const newCardData = { name: title, link: link };
     const newCard = createCard(newCardData);
-    document.querySelector(".card-grid").appendChild(newCard);
+    document.querySelector(".card-grid").prepend(newCard);
     addPostForm.reset(); // Limpa o formulário
     closeAllPopups(); // Fecha o pop-up
   } else {
@@ -298,23 +298,3 @@ function checkInputs() {
   }
 }
 
-function handleAddPostSubmit(evt) {
-  evt.preventDefault();
-
-  const isTitleValid = validateAddPostInput(postTitleInput);
-  const isLinkValid = validateAddPostInput(postLinkInput);
-
-  if (isTitleValid && isLinkValid) {
-    const cardData = {
-      name: postTitleInput.value,
-      link: postLinkInput.value,
-    };
-
-    const newCard = createCard(cardData);
-    const cardGrid = document.querySelector(".card-grid");
-    cardGrid.prepend(newCard); // Adiciona o novo card no início da lista
-
-    addPostForm.reset(); // Limpa o formulário
-    addPostPopUp.classList.add("disable");
-  }
-}

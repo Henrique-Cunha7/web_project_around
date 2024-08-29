@@ -31,11 +31,11 @@ const hasInvalidInput = (inputList) => {
 // Função para ativar/desativar o botão de submit
 const toggleButtonState = (inputList, buttonElement, config) => {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add(config.inactiveButtonClass);
-    buttonElement.disabled = true;
+    buttonElement.classList.remove(config.activeButtonClass); // Remove a classe ativa
+    buttonElement.disabled = true; // Desativa o botão
   } else {
-    buttonElement.classList.remove(config.inactiveButtonClass);
-    buttonElement.disabled = false;
+    buttonElement.classList.add(config.activeButtonClass); // Adiciona a classe ativa
+    buttonElement.disabled = false; // Ativa o botão
   }
 };
 
