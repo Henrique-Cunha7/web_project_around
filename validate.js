@@ -5,6 +5,7 @@ const showError = (inputElement, errorMessage, config) => {
   const errorElement = document.querySelector(`#${inputElement.id}-error`);
   errorElement.textContent = errorMessage;
   errorElement.classList.add(config.errorClass);
+  errorElement.style.display = 'block'; // Força a visibilidade, se necessário
 };
 
 // Função para esconder mensagem de erro
@@ -12,6 +13,7 @@ const hideError = (inputElement, config) => {
   const errorElement = document.querySelector(`#${inputElement.id}-error`);
   errorElement.textContent = '';
   errorElement.classList.remove(config.errorClass);
+  errorElement.style.display = 'none'; // Garante que esconda
 };
 
 // Função para verificar se um input é válido
@@ -38,6 +40,31 @@ const toggleButtonState = (inputList, buttonElement, config) => {
     buttonElement.disabled = false; // Ativa o botão
   }
 };
+
+// Configuração para o botão de adicionar post
+const addPostValidationConfig = {
+  formSelector: '#add-post-form',
+  inputSelector: '.pop-up__input',
+  submitButtonSelector: '.pop-up__button_type_add-post',
+  inactiveButtonClass: 'pop-up__button_type_add-post-inactive', // Se houver alguma classe inativa para estilos
+  activeButtonClass: 'pop-up__button_type_add-post-active'
+};
+
+// Aplicando a função de toggle para o botão de adicionar post
+const addPostForm = document.querySelector(addPostValidationConfig.formSelector);
+const addPostInputList = Array.from(addPostForm.querySelectorAll(addPostValidationConfig.inputSelector));
+const addPostSubmitButton = addPostForm.querySelector(addPostValidationConfig.submitButtonSelector);
+
+// Verifica o estado inicial do botão
+toggleButtonState(addPostInputList, addPostSubmitButton, addPostValidationConfig);
+
+// Adiciona evento de input para atualizar o estado do botão
+addPostInputList.forEach((input) => {
+  input.addEventListener('input', () => {
+    toggleButtonState(addPostInputList, addPostSubmitButton, addPostValidationConfig);
+  });
+});
+
 
 // Função para adicionar os eventos de validação a um formulário
 const setEventListeners = (formElement, config) => {

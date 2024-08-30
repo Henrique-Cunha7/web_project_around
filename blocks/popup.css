@@ -111,7 +111,7 @@
   margin-top: 5px;
   text-align: left;
   width: 100%;
-  display: none; /* Escondido por padrão */
+  display: none;
 }
 
 /* Media Queries */

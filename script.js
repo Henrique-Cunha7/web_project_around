@@ -5,7 +5,7 @@ const validationConfig = {
   formSelector: '.pop-up__form',
   inputSelector: '.pop-up__form-input',
   submitButtonSelector: '.pop-up__form-button',
-  inactiveButtonClass: 'pop-up__form-button-inactive',
+  activeButtonClass: 'pop-up__form-button-active',
   errorClass: 'error-message'
 };
 
@@ -50,8 +50,11 @@ function handleClickOutside(event) {
 // Função para abrir pop-up de perfil
 function openProfilePopup() {
   popUp.classList.remove("disable");
+  submitButton.classList.remove("pop-up__form-button-active");
+  submitButton.disabled = true;
   document.addEventListener("keydown", handleEscapeKey);
   document.addEventListener("click", handleClickOutside);
+  checkInputs();
 }
 
 // Função para fechar pop-up de perfil
@@ -297,4 +300,5 @@ function checkInputs() {
     submitButton.disabled = true; // Desativa o botão
   }
 }
+
 
