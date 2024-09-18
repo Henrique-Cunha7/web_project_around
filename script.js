@@ -1,4 +1,7 @@
-import { enableValidation } from './validate.js';
+import { enableValidation } from './formValidator.js';
+// import { FormValidator } from './formValidator.js';
+
+import Card from './card.js';
 
 // Configuração de validação
 const validationConfig = {
@@ -11,6 +14,8 @@ const validationConfig = {
 
 // Habilitar a validação
 enableValidation(validationConfig);
+
+
 
 // SELETORES DO FORMULÁRIO
 const formElement = document.querySelector("#pop-up__form");
@@ -81,6 +86,8 @@ editButton.addEventListener("click", openProfilePopup);
 popUpCloseButton.addEventListener("click", closeProfilePopup);
 
 // Funções para cards
+
+// CARDS INICIAIS
 const initialCards = [
   { name: "Vale de Yosemite", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg" },
   { name: "Lago Louise", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg" },
@@ -90,45 +97,13 @@ const initialCards = [
   { name: "Lago di Braies", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg" },
 ];
 
+// CRIA CARD
 function createCard(cardData) {
-  const card = document.createElement("div");
-  card.classList.add("card");
-
-  const deleteButton = document.createElement("img");
-  deleteButton.src = "./images/DELETE.png";
-  deleteButton.alt = "delete button";
-  deleteButton.classList.add("card__delete-button");
-
-  const image = document.createElement("img");
-  image.src = cardData.link;
-  image.alt = `${cardData.name} image`;
-  image.classList.add("card__image");
-
-  const info = document.createElement("div");
-  info.classList.add("card__info");
-
-  const name = document.createElement("h2");
-  name.classList.add("card__name");
-  name.textContent = cardData.name;
-
-  const likeButton = document.createElement("img");
-  likeButton.src = "./images/likeimage.png";
-  likeButton.alt = "like button";
-  likeButton.classList.add("card__like");
-
-  info.appendChild(name);
-  info.appendChild(likeButton);
-  card.appendChild(deleteButton);
-  card.appendChild(image);
-  card.appendChild(info);
-
-  addImageClickListener(image, name.textContent);
-  addDeleteClickListener(deleteButton);
-  addLikeClickListener(likeButton);
-
-  return card;
+  const card = new Card(cardData);
+  return card.getCardElement();
 }
 
+// ADICIONA NA PAGINA PELO DOM
 function addCardsToPage() {
   const cardGrid = document.querySelector(".card-grid");
   initialCards.forEach((cardData) => {
@@ -142,6 +117,7 @@ function initializePage() {
 }
 
 document.addEventListener("DOMContentLoaded", initializePage);
+
 
 // Função para abrir pop-up de imagem
 function addImageClickListener(image, text) {
@@ -210,10 +186,13 @@ closeAddPostButton.addEventListener("click", function () {
 });
 
 // Adicionar card
+// const profileForm = document.querySelector('#pop-up__form');
 const addPostForm = document.querySelector("#add-post-form");
 const postTitleInput = document.querySelector("input[name='titulo']");
 const postLinkInput = document.querySelector("input[name='link']");
-const addPostSubmitButton = document.querySelector(".pop-up__button_type_add-post");
+// const addPostSubmitButton = document.querySelector(".pop-up__button_type_add-post");
+
+
 
 // Função para validar URL
 function isValidURL(url) {
@@ -288,17 +267,18 @@ addPostForm.addEventListener("submit", (event) => {
 });
 
 
+
+// ATIVA DESATIVA BOTAO PERFIL
 function checkInputs() {
   const isNameValid = validateInput(nameInput);
   const isInfoValid = validateInput(infoInput);
 
   if (isNameValid && isInfoValid) {
     submitButton.classList.add("pop-up__form-button-active");
-    submitButton.disabled = false; // Ativa o botão
+    submitButton.disabled = false; // Ativa
   } else {
     submitButton.classList.remove("pop-up__form-button-active");
-    submitButton.disabled = true; // Desativa o botão
+    submitButton.disabled = true; // Desativa
   }
 }
-
 
