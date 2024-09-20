@@ -259,10 +259,6 @@ addPostForm.addEventListener("submit", (event) => {
     document.querySelector(".card-grid").prepend(newCard);
     addPostForm.reset(); // Limpa o formulário
     closeAllPopups(); // Fecha o pop-up
-  } else {
-    // Exibir mensagens de erro
-    if (!title) showAddPostError(postTitleInput, "O título não pode estar vazio.");
-    if (!isValidURL(link)) showAddPostError(postLinkInput, "URL inválida.");
   }
 });
 
