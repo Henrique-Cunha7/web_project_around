@@ -35,30 +35,29 @@ const hasInvalidInput = (inputList) => {
 };
 
 // Função para ativar/desativar o botão de submit
-const toggleButtonState = (inputList, buttonElement, config) => {
-  console.log('Toggling button state');
-  console.log('Input list validity:', !hasInvalidInput(inputList)); // Log da validade dos inputs
-
-  if (hasInvalidInput(inputList)) {
-    buttonElement.classList.remove(config.activeButtonClass);
-    buttonElement.disabled = true;
-  } else {
-    buttonElement.classList.add(config.activeButtonClass);
-    buttonElement.disabled = false;
-  }
+const toggleButtonState = (inputList, buttonElements, config) => {
+  buttonElements.forEach(button => {
+    if (hasInvalidInput(inputList)) {
+      button.classList.remove(config.activeButtonClass);
+      button.disabled = true;
+    } else {
+      button.classList.add(config.activeButtonClass);
+      button.disabled = false;
+    }
+  });
 };
 
 // Função para adicionar os eventos de validação a um formulário
 const setEventListeners = (formElement, config) => {
   const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
-  const buttonElement = formElement.querySelector(config.submitButtonSelector);
+  const buttonElements = Array.from(formElement.querySelectorAll(config.submitButtonSelector));
 
-  toggleButtonState(inputList, buttonElement, config);
+  toggleButtonState(inputList, buttonElements, config);
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
       checkInputValidity(formElement, inputElement, config);
-      toggleButtonState(inputList, buttonElement, config);
+      toggleButtonState(inputList, buttonElements, config);
     });
   });
 };
