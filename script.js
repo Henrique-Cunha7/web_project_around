@@ -66,7 +66,6 @@ function openProfilePopup() {
   submitButton.disabled = true;
   document.addEventListener("keydown", handleEscapeKey);
   document.addEventListener("click", handleClickOutside);
-  checkInputs();
 }
 
 // Função para fechar pop-up de perfil
@@ -146,24 +145,6 @@ function addImageClickListener(image, text) {
 const closeImageButton = document.querySelector(".image-pop-up__close-button");
 closeImageButton.addEventListener("click", closeAllPopups);
 
-// Função para excluir card
-function addDeleteClickListener(deleteButton) {
-  deleteButton.addEventListener("click", function () {
-    const card = deleteButton.closest(".card");
-    card.remove();
-  });
-}
-
-// Função para alterar imagem do botão de like
-function addLikeClickListener(likeButton) {
-  likeButton.addEventListener("click", function () {
-    const currentSrc = likeButton.src;
-    likeButton.src = currentSrc.includes("likeimage.png")
-      ? "./images/likedimage.png"
-      : "./images/likeimage.png";
-  });
-}
-
 // Função para fechar pop-up ao pressionar ESC ou clicar fora
 function closeOnEscapeOrClickOutside(event) {
   if (event.type === "keydown" && event.key === "Escape") {
@@ -192,95 +173,18 @@ closeAddPostButton.addEventListener("click", function () {
   closeAllPopups();
 });
 
-// Adicionar card
-// const profileForm = document.querySelector('#pop-up__form');
+// Adicionar novo post
 const postTitleInput = document.querySelector("input[name='titulo']");
 const postLinkInput = document.querySelector("input[name='link']");
-// const addPostSubmitButton = document.querySelector(".pop-up__button_type_add-post");
 
-
-
-// Função para validar URL
-function isValidURL(url) {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
-  }
-}
-
-// Função para exibir mensagem de erro no formulário de adicionar post
-function showAddPostError(input, message) {
-  const errorSpan = document.getElementById(`${input.name}-error`);
-  if (errorSpan) {
-    errorSpan.textContent = message;
-    errorSpan.style.display = 'block';
-  }
-}
-
-// Função para remover mensagem de erro no formulário de adicionar post
-function hideAddPostError(input) {
-  const errorSpan = document.getElementById(`${input.name}-error`);
-  if (errorSpan) {
-    errorSpan.textContent = '';
-    errorSpan.style.display = 'none';
-  }
-}
-
-// Função para validar input no formulário de adicionar post
-function validateAddPostInput(input) {
-  const minLength = parseInt(input.getAttribute("minlength"), 10);
-  const maxLength = parseInt(input.getAttribute("maxlength"), 10);
-  const value = input.value.trim();
-
-  if (value.length < minLength) {
-    showAddPostError(input, `Deve ter pelo menos ${minLength} caracteres.`);
-  } else if (value.length > maxLength) {
-    showAddPostError(input, `Deve ter no máximo ${maxLength} caracteres.`);
-  } else {
-    hideAddPostError(input);
-  }
-}
-
-// Validação ao digitar nos campos de adicionar post
-postTitleInput.addEventListener("input", () => validateAddPostInput(postTitleInput));
-postLinkInput.addEventListener("input", () => {
-  if (!isValidURL(postLinkInput.value)) {
-    showAddPostError(postLinkInput, "URL inválida.");
-  } else {
-    hideAddPostError(postLinkInput);
-  }
-});
-
-// Adicionar novo post
 addPostForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const title = postTitleInput.value;
   const link = postLinkInput.value;
 
-  if (title && isValidURL(link)) {
-    const newCardData = { name: title, link: link };
-    const newCard = createCard(newCardData);
-    document.querySelector(".card-grid").prepend(newCard);
-    addPostForm.reset(); // Limpa o formulário
-    closeAllPopups(); // Fecha o pop-up
-  }
+  const newCardData = { name: title, link: link };
+  const newCard = createCard(newCardData);
+  document.querySelector(".card-grid").prepend(newCard);
+  addPostForm.reset(); // Limpa o formulário
+  closeAllPopups(); // Fecha o pop-up
 });
-
-
-
-// ATIVA DESATIVA BOTAO PERFIL
-function checkInputs() {
-  const isNameValid = validateInput(nameInput);
-  const isInfoValid = validateInput(infoInput);
-
-  if (isNameValid && isInfoValid) {
-    submitButton.classList.add("pop-up__form-button-active");
-    submitButton.disabled = false; // Ativa
-  } else {
-    submitButton.classList.remove("pop-up__form-button-active");
-    submitButton.disabled = true; // Desativa
-  }
-}
-
