@@ -1,4 +1,4 @@
-// formValidator.js
+import { isValidURL } from "./utils.js";
 
 export default class FormValidator {
   constructor(config, formElement) {
@@ -18,20 +18,24 @@ export default class FormValidator {
     });
   }
 
+  // Função para obter a lista de inputs do formulário
   _getInputListFromForm() {
     return Array.from(
       this._formElement.querySelectorAll(this._config.inputSelector)
     );
   }
 
+  // Função para obter o botão de submit do formulário
   _getSubmitButtonFromForm() {
     return this._formElement.querySelector(this._config.submitButtonSelector);
   }
 
+  // Função que verifica se há algum input inválido
   _hasInvalidInput(inputList) {
     return inputList.some((inputElement) => !inputElement.validity.valid);
   }
 
+  // Função para alterar o estado do botão de submit entre ativo/desativado
   _toggleButtonState(button, inputList) {
     if (this._hasInvalidInput(inputList)) {
       button.classList.remove(this._config.activeButtonClass);
@@ -42,6 +46,7 @@ export default class FormValidator {
     }
   }
 
+  // Função que valida um input do tipo texto e retorna uma mensagem de erro se for inválido ou `null` se for válido
   _validateTextInput(input) {
     const minLength = parseInt(input.getAttribute("minlength"), 10);
     const maxLength = parseInt(input.getAttribute("maxlength"), 10);
@@ -56,10 +61,12 @@ export default class FormValidator {
     }
   }
 
+  // Função que valida um input do tipo URL e retorna uma mensagem de erro se for inválido ou `null` se for válido
   _validateUrlInput(input) {
     return isValidURL(input.value) ? null : "URL inválida.";
   }
 
+  // Função para alternar o estado da mensagem de erro que fica em baixo do input
   _toggleInputErrorMessage(input, error) {
     const errorElement = document.querySelector(`#${input.id}-error`);
     if (error) {
@@ -73,6 +80,7 @@ export default class FormValidator {
     }
   }
 
+  // Função que verifica se o input tem algum erro e utiliza esses dados para alternar o estado da mensagem de erro
   _checkInputValidity(input) {
     switch (input.type) {
       case "text": {
@@ -86,15 +94,5 @@ export default class FormValidator {
         break;
       }
     }
-  }
-}
-
-// Função para validar URL
-function isValidURL(url) {
-  try {
-    new URL(url);
-    return true;
-  } catch {
-    return false;
   }
 }
