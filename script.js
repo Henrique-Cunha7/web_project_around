@@ -1,20 +1,27 @@
-import { enableValidation } from './formValidator.js';
-// import { FormValidator } from './formValidator.js';
-
+import FormValidator from './formValidator.js';
 import Card from './card.js';
 
+
 // Configuração de validação
-const validationConfig = {
-  formSelector: '.pop-up__form',
+const editProfileValidationConfig = {
   inputSelector: '.pop-up__form-input',
   submitButtonSelector: '.pop-up__form-button',
   activeButtonClass: 'pop-up__form-button-active',
   errorClass: 'error-message'
 };
+const addPostValidationConfig = {
+  inputSelector: '.pop-up__input',
+  submitButtonSelector: '.pop-up__button_type_add-post',
+  activeButtonClass: 'pop-up__button_type_add-post-active',
+  errorClass: 'error-message' // Classe de erro para mensagens
+};
 
 // Habilitar a validação
-enableValidation(validationConfig);
+const editProfileForm = document.getElementById("pop-up__form");
+new FormValidator(editProfileValidationConfig, editProfileForm).enableValidation();
 
+const addPostForm = document.getElementById("add-post-form");
+new FormValidator(addPostValidationConfig, addPostForm).enableValidation();
 
 
 // SELETORES DO FORMULÁRIO
@@ -187,7 +194,6 @@ closeAddPostButton.addEventListener("click", function () {
 
 // Adicionar card
 // const profileForm = document.querySelector('#pop-up__form');
-const addPostForm = document.querySelector("#add-post-form");
 const postTitleInput = document.querySelector("input[name='titulo']");
 const postLinkInput = document.querySelector("input[name='link']");
 // const addPostSubmitButton = document.querySelector(".pop-up__button_type_add-post");
