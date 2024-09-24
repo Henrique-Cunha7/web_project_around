@@ -1,75 +1,98 @@
-// formValidator.js
+import { isValidURL } from "./utils.js";
 
-// Função para mostrar mensagem de erro
-const showError = (inputElement, errorMessage, config) => {
-  const errorElement = document.querySelector(`#${inputElement.id}-error`);
-  if (errorElement) {
-    errorElement.textContent = errorMessage;
-    errorElement.classList.add(config.errorClass);
-    errorElement.style.display = 'block'; // Força a visibilidade
+export default class FormValidator {
+  constructor(config, formElement) {
+    this._config = config;
+    this._formElement = formElement;
   }
-};
 
-// Função para esconder mensagem de erro
-const hideError = (inputElement, config) => {
-  const errorElement = document.querySelector(`#${inputElement.id}-error`);
-  if (errorElement) {
-    errorElement.textContent = '';
-    errorElement.classList.remove(config.errorClass);
-    errorElement.style.display = 'none'; // Garante que esconda
+  enableValidation() {
+    const inputList = this._getInputListFromForm();
+    const submitButton = this._getSubmitButtonFromForm();
+
+    inputList.forEach((inputElement) => {
+      inputElement.addEventListener("input", () => {
+        this._checkInputValidity(inputElement);
+        this._toggleButtonState(submitButton, inputList);
+      });
+    });
   }
-};
 
-// Função para verificar se um input é válido
-const checkInputValidity = (formElement, inputElement, config) => {
-  if (!inputElement.validity.valid) {
-    showError(inputElement, inputElement.validationMessage, config);
-  } else {
-    hideError(inputElement, config);
+  // Função para obter a lista de inputs do formulário
+  _getInputListFromForm() {
+    return Array.from(
+      this._formElement.querySelectorAll(this._config.inputSelector)
+    );
   }
-};
 
-// Função para verificar se todos os inputs são válidos
-const hasInvalidInput = (inputList) => {
-  return Array.from(inputList).some((inputElement) => !inputElement.validity.valid);
-};
+  // Função para obter o botão de submit do formulário
+  _getSubmitButtonFromForm() {
+    return this._formElement.querySelector(this._config.submitButtonSelector);
+  }
 
-// Função para ativar/desativar o botão de submit
-const toggleButtonState = (inputList, buttonElements, config) => {
-  buttonElements.forEach(button => {
-    if (hasInvalidInput(inputList)) {
-      button.classList.remove(config.activeButtonClass);
+  // Função que verifica se há algum input inválido
+  _hasInvalidInput(inputList) {
+    return inputList.some((inputElement) => !inputElement.validity.valid);
+  }
+
+  // Função para alterar o estado do botão de submit entre ativo/desativado
+  _toggleButtonState(button, inputList) {
+    if (this._hasInvalidInput(inputList)) {
+      button.classList.remove(this._config.activeButtonClass);
       button.disabled = true;
     } else {
-      button.classList.add(config.activeButtonClass);
+      button.classList.add(this._config.activeButtonClass);
       button.disabled = false;
     }
-  });
-};
+  }
 
-// Função para adicionar os eventos de validação a um formulário
-const setEventListeners = (formElement, config) => {
-  const inputList = Array.from(formElement.querySelectorAll(config.inputSelector));
-  const buttonElements = Array.from(formElement.querySelectorAll(config.submitButtonSelector));
+  // Função que valida um input do tipo texto e retorna uma mensagem de erro se for inválido ou `null` se for válido
+  _validateTextInput(input) {
+    const minLength = parseInt(input.getAttribute("minlength"), 10);
+    const maxLength = parseInt(input.getAttribute("maxlength"), 10);
+    const value = input.value.trim();
 
-  toggleButtonState(inputList, buttonElements, config);
+    if (value.length < minLength) {
+      return `Deve ter pelo menos ${minLength} caracteres.`;
+    } else if (value.length > maxLength) {
+      return `Deve ter no máximo ${maxLength} caracteres.`;
+    } else {
+      return null;
+    }
+  }
 
-  inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () => {
-      checkInputValidity(formElement, inputElement, config);
-      toggleButtonState(inputList, buttonElements, config);
-    });
-  });
-};
+  // Função que valida um input do tipo URL e retorna uma mensagem de erro se for inválido ou `null` se for válido
+  _validateUrlInput(input) {
+    return isValidURL(input.value) ? null : "URL inválida.";
+  }
 
-// Função para ativar a validação em todos os formulários
-const enableValidation = (config) => {
-  const formList = Array.from(document.querySelectorAll(config.formSelector));
+  // Função para alternar o estado da mensagem de erro que fica em baixo do input
+  _toggleInputErrorMessage(input, error) {
+    const errorElement = document.querySelector(`#${input.id}-error`);
+    if (error) {
+      errorElement.textContent = error;
+      errorElement.classList.add(this._config.errorClass);
+      errorElement.style.display = "block"; // Força a visibilidade
+    } else {
+      errorElement.textContent = "";
+      errorElement.classList.remove(this._config.errorClass);
+      errorElement.style.display = "none"; // Garante que esconda
+    }
+  }
 
-  formList.forEach((formElement) => {
-    setEventListeners(formElement, config);
-  });
-};
-
-// Exporta a função para ser usada em outros arquivos
-export { enableValidation };
+  // Função que verifica se o input tem algum erro e utiliza esses dados para alternar o estado da mensagem de erro
+  _checkInputValidity(input) {
+    switch (input.type) {
+      case "text": {
+        const errorMessage = this._validateTextInput(input);
+        this._toggleInputErrorMessage(input, errorMessage);
+        break;
+      }
+      case "url": {
+        const errorMessage = this._validateUrlInput(input);
+        this._toggleInputErrorMessage(input, errorMessage);
+        break;
+      }
+    }
+  }
+}
