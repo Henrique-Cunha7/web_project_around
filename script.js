@@ -1,6 +1,6 @@
 import FormValidator from './formValidator.js';
 import Card from './card.js';
-
+import { closeAllPopups, handleEscapeKey, handleClickOutside, openProfilePopup, closeProfilePopup, addImageClickListener, closeOnEscapeOrClickOutside } from './utils.js';
 
 // Configuração de validação
 const editProfileValidationConfig = {
@@ -13,7 +13,7 @@ const addPostValidationConfig = {
   inputSelector: '.pop-up__input',
   submitButtonSelector: '.pop-up__button_type_add-post',
   activeButtonClass: 'pop-up__button_type_add-post-active',
-  errorClass: 'error-message' // Classe de erro para mensagens
+  errorClass: 'error-message'
 };
 
 // Habilitar a validação
@@ -23,57 +23,19 @@ new FormValidator(editProfileValidationConfig, editProfileForm).enableValidation
 const addPostForm = document.getElementById("add-post-form");
 new FormValidator(addPostValidationConfig, addPostForm).enableValidation();
 
-
 // SELETORES DO FORMULÁRIO
 const formElement = document.querySelector("#pop-up__form");
 const nameInput = document.querySelector(".pop-up__form-input-name");
 const infoInput = document.querySelector(".pop-up__form-input-info");
 const submitButton = document.querySelector(".pop-up__form-button");
-const popUp = document.querySelector(".pop-up");
 const popUpCloseButton = document.querySelector(".pop-up__close-button");
 const editButton = document.querySelector(".profile__edit-button");
 
-// Função para fechar todos os pop-ups
-function closeAllPopups() {
-  document.querySelectorAll(".pop-up").forEach(popup => {
-    popup.classList.add("disable");
-  });
-  document.querySelectorAll(".image-pop-up").forEach(popup => {
-    popup.classList.add("disable");
-  });
-  document.removeEventListener("keydown", handleEscapeKey);
-  document.removeEventListener("click", handleClickOutside);
-}
+// Event Listener para abrir pop-up de perfil
+editButton.addEventListener("click", () => openProfilePopup(document.querySelector(".pop-up"), submitButton));
+popUpCloseButton.addEventListener("click", closeProfilePopup);
 
-// Função para fechar pop-up ao pressionar ESC
-function handleEscapeKey(event) {
-  if (event.key === "Escape") {
-    closeAllPopups();
-  }
-}
-
-// Função para fechar pop-up ao clicar fora
-function handleClickOutside(event) {
-  if (event.target.classList.contains("pop-up") || event.target.classList.contains("image-pop-up")) {
-    closeAllPopups();
-  }
-}
-
-// Função para abrir pop-up de perfil
-function openProfilePopup() {
-  popUp.classList.remove("disable");
-  submitButton.classList.remove("pop-up__form-button-active");
-  submitButton.disabled = true;
-  document.addEventListener("keydown", handleEscapeKey);
-  document.addEventListener("click", handleClickOutside);
-}
-
-// Função para fechar pop-up de perfil
-function closeProfilePopup() {
-  closeAllPopups();
-}
-
-// Event Listeners popup perfil
+// Event Listeners para o formulário de perfil
 formElement.addEventListener("submit", function(evt) {
   evt.preventDefault();
   if (formElement.checkValidity()) {
@@ -87,9 +49,6 @@ formElement.addEventListener("submit", function(evt) {
     closeProfilePopup(); // Fecha o pop-up
   }
 });
-
-editButton.addEventListener("click", openProfilePopup);
-popUpCloseButton.addEventListener("click", closeProfilePopup);
 
 // Funções para cards
 
@@ -109,7 +68,7 @@ function createCard(cardData) {
   return card.getCardElement();
 }
 
-// ADICIONA NA PAGINA PELO DOM
+// ADICIONA NA PÁGINA PELO DOM
 function addCardsToPage() {
   const cardGrid = document.querySelector(".card-grid");
   initialCards.forEach((cardData) => {
@@ -124,54 +83,23 @@ function initializePage() {
 
 document.addEventListener("DOMContentLoaded", initializePage);
 
-
-// Função para abrir pop-up de imagem
-function addImageClickListener(image, text) {
-  image.addEventListener("click", function () {
-    const imagePopUp = document.querySelector(".image-pop-up");
-    const popUpImage = imagePopUp.querySelector(".image-pop-up__image");
-    const popUpText = imagePopUp.querySelector(".image-pop-up__text");
-
-    popUpImage.src = image.src;
-    popUpText.textContent = text;
-    imagePopUp.classList.remove("disable");
-
-    document.addEventListener("keydown", handleEscapeKey);
-    document.addEventListener("click", handleClickOutside);
-  });
-}
-
 // Fechar pop-up de imagem
 const closeImageButton = document.querySelector(".image-pop-up__close-button");
 closeImageButton.addEventListener("click", closeAllPopups);
 
-// Função para fechar pop-up ao pressionar ESC ou clicar fora
-function closeOnEscapeOrClickOutside(event) {
-  if (event.type === "keydown" && event.key === "Escape") {
-    closeAllPopups();
-  } else if (event.type === "click" &&
-            (event.target.classList.contains("pop-up") || event.target.classList.contains("image-pop-up"))) {
-    closeAllPopups();
-  }
-}
-
-// Pop-up de adicionar post
+// Event Listener para abrir pop-up de adicionar post
 const addPostButton = document.querySelector(".profile__add-post");
 const addPostPopUp = document.querySelector(".pop-up_type_add-post");
 
 addPostButton.addEventListener("click", function () {
   addPostPopUp.classList.remove("disable");
-  document.removeEventListener("keydown", closeOnEscapeOrClickOutside);
-  document.removeEventListener("click", closeOnEscapeOrClickOutside);
   document.addEventListener("keydown", closeOnEscapeOrClickOutside);
   document.addEventListener("click", closeOnEscapeOrClickOutside);
 });
 
 // Fechar pop-up de adicionar post
 const closeAddPostButton = addPostPopUp.querySelector(".pop-up__close-button_type_add-post");
-closeAddPostButton.addEventListener("click", function () {
-  closeAllPopups();
-});
+closeAddPostButton.addEventListener("click", closeAllPopups);
 
 // Adicionar novo post
 const postTitleInput = document.querySelector("input[name='titulo']");
@@ -182,9 +110,11 @@ addPostForm.addEventListener("submit", (event) => {
   const title = postTitleInput.value;
   const link = postLinkInput.value;
 
-  const newCardData = { name: title, link: link };
-  const newCard = createCard(newCardData);
-  document.querySelector(".card-grid").prepend(newCard);
-  addPostForm.reset(); // Limpa o formulário
-  closeAllPopups(); // Fecha o pop-up
+  // Adicionar o novo card ao início da lista
+  const cardGrid = document.querySelector(".card-grid");
+  const newCard = createCard({ name: title, link: link });
+  cardGrid.prepend(newCard);
+
+  addPostForm.reset();
+  closeAllPopups();
 });
