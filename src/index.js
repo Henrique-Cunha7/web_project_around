@@ -1,0 +1,1 @@
+let someStr = "Eu programei. Eu salvei. Eu empacotei.";

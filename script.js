@@ -1,5 +1,6 @@
 import FormValidator from './formValidator.js';
 import Card from './card.js';
+import Section from './section.js'; // Importa a classe Section
 import { closeAllPopups, handleEscapeKey, handleClickOutside, openProfilePopup, closeProfilePopup, addImageClickListener, closeOnEscapeOrClickOutside } from './utils.js';
 
 // Configuração de validação
@@ -50,8 +51,6 @@ formElement.addEventListener("submit", function(evt) {
   }
 });
 
-// Funções para cards
-
 // CARDS INICIAIS
 const initialCards = [
   { name: "Vale de Yosemite", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg" },
@@ -68,17 +67,21 @@ function createCard(cardData) {
   return card.getCardElement();
 }
 
-// ADICIONA NA PÁGINA PELO DOM
-function addCardsToPage() {
-  const cardGrid = document.querySelector(".card-grid");
-  initialCards.forEach((cardData) => {
-    const card = createCard(cardData);
-    cardGrid.appendChild(card);
-  });
-}
+// Instância da classe Section
+const section = new Section(
+  {
+    items: initialCards,
+    renderer: (cardData) => {
+      const cardElement = createCard(cardData);
+      section.addItem(cardElement); // Adiciona o novo cartão
+    },
+  },
+  ".card-grid"
+);
 
+// Inicializa a página com os cartões
 function initializePage() {
-  addCardsToPage();
+  section.renderItems();
 }
 
 document.addEventListener("DOMContentLoaded", initializePage);
@@ -110,10 +113,9 @@ addPostForm.addEventListener("submit", (event) => {
   const title = postTitleInput.value;
   const link = postLinkInput.value;
 
-  // Adicionar o novo card ao início da lista
-  const cardGrid = document.querySelector(".card-grid");
+  // Criar e adicionar o novo card ao início da lista
   const newCard = createCard({ name: title, link: link });
-  cardGrid.prepend(newCard);
+  section.addItem(newCard); // Adiciona o cartão usando a Section
 
   addPostForm.reset();
   closeAllPopups();
