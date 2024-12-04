@@ -1,6 +1,6 @@
 import FormValidator from './formValidator.js';
 import Card from './card.js';
-import Section from './section.js'; // Importa a classe Section
+import Section from './section.js';
 import { closeAllPopups, handleEscapeKey, handleClickOutside, openProfilePopup, closeProfilePopup, addImageClickListener, closeOnEscapeOrClickOutside } from './utils.js';
 
 // Configuração de validação
@@ -67,24 +67,17 @@ function createCard(cardData) {
   return card.getCardElement();
 }
 
-// Instância da classe Section
-const section = new Section(
-  {
-    items: initialCards,
-    renderer: (cardData) => {
-      const cardElement = createCard(cardData);
-      section.addItem(cardElement); // Adiciona o novo cartão
-    },
-  },
-  ".card-grid"
-);
+// CRIAÇÃO DA INSTÂNCIA DO SECTION E RENDERIZAÇÃO DOS CARDS
+const section = new Section({
+  items: initialCards,
+  renderer: (cardData) => {
+    const card = createCard(cardData);
+    section.addItem(card);
+  }
+}, '.card-grid');
 
-// Inicializa a página com os cartões
-function initializePage() {
-  section.renderItems();
-}
-
-document.addEventListener("DOMContentLoaded", initializePage);
+// Renderiza os cards na inicialização
+section.renderItems();
 
 // Fechar pop-up de imagem
 const closeImageButton = document.querySelector(".image-pop-up__close-button");
@@ -113,9 +106,10 @@ addPostForm.addEventListener("submit", (event) => {
   const title = postTitleInput.value;
   const link = postLinkInput.value;
 
-  // Criar e adicionar o novo card ao início da lista
+  // Adicionar o novo card ao início da lista
+  const cardGrid = document.querySelector(".card-grid");
   const newCard = createCard({ name: title, link: link });
-  section.addItem(newCard); // Adiciona o cartão usando a Section
+  cardGrid.prepend(newCard);
 
   addPostForm.reset();
   closeAllPopups();
