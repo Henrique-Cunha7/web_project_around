@@ -3,6 +3,7 @@ import Card from './card.js';
 import Section from './section.js';
 import PopupWithForm from './popupWithForm.js';
 import PopupWithImage from './popupWithImage.js';
+import UserInfo from './userInfo.js';
 
 // Configuração de validação
 const addPostValidationConfig = {
@@ -72,91 +73,39 @@ imageElements.forEach(image => {
   image.addEventListener("click", () => imagePopup.open(image.src, image.alt));
 });
 
+// Instância da classe UserInfo
+const userInfo = new UserInfo({
+  nameSelector: ".profile__info-user",
+  infoSelector: ".profile__description",
+});
 
+// Instância do PopupWithForm para edição de perfil
+const editProfilePopup = new PopupWithForm(".pop-up", (formValues) => {
+  userInfo.setUserInfo({
+    name: formValues.name,
+    info: formValues.info,
+  });
+  console.log("Perfil atualizado com sucesso!");
+});
 
-// SELETORES DO FORMULÁRIO
-const formElement = document.querySelector("#pop-up__form");
+// Adiciona os event listeners ao popup
+editProfilePopup.setEventListeners();
+
+// Seletores dos campos de entrada do formulário
 const nameInput = document.querySelector(".pop-up__form-input-name");
 const infoInput = document.querySelector(".pop-up__form-input-info");
-const submitButton = document.querySelector(".pop-up__form-button");
-const popUpCloseButton = document.querySelector(".pop-up__close-button");
+
+// Botão de abrir o popup de edição de perfil
 const editButton = document.querySelector(".profile__edit-button");
-
-// POPUP DE EDITAR PERFIL
-const editProfilePopup = new PopupWithForm(".pop-up", (formValues) => {
-  // Atualiza o perfil com os dados do formulário
-  const profileName = document.querySelector(".profile__info-user");
-  const profileDescription = document.querySelector(".profile__description");
-
-  profileName.textContent = formValues.name;
-  profileDescription.textContent = formValues.info;
-
-  editProfilePopup.close();  // Fecha o popup após salvar
-});
-
-// Event Listener para abrir pop-up de perfil
 editButton.addEventListener("click", () => {
-  // Preenche o formulário com os dados atuais do perfil
-  const profileName = document.querySelector(".profile__info-user");
-  const profileDescription = document.querySelector(".profile__description");
+  console.log("Abrindo popup de editar perfil...");
 
-  nameInput.value = '';
-  infoInput.value = '';
+  nameInput.value = "";
+  infoInput.value = "";
 
-  editProfilePopup.open();  // Abre o pop-up de editar perfil
+  editProfilePopup.open();
 });
 
-// Fechar pop-up de perfil
-popUpCloseButton.addEventListener("click", () => editProfilePopup.close());
-
-// Event Listeners para o formulário de perfil
-formElement.addEventListener("submit", function(evt) {
-  evt.preventDefault();
-  if (formElement.checkValidity()) {
-    // Submete os dados
-    const profileName = document.querySelector(".profile__info-user");
-    const profileDescription = document.querySelector(".profile__description");
-
-    profileName.textContent = nameInput.value;
-    profileDescription.textContent = infoInput.value;
-
-    formElement.reset(); // Limpa o formulário
-    editProfilePopup.close(); // Fecha o pop-up
-  }
-});
-// // POPUP DE EDITAR PERFIL
-// const editProfilePopup = new PopupWithForm(".pop-up", (formValues) => {
-//   console.log("Dados de edição de perfil:", formValues);
-
-//   // Atualizando as informações do perfil
-//   const profileName = document.querySelector(".profile__info-user");
-//   const profileDescription = document.querySelector(".profile__description");
-
-//   profileName.textContent = formValues.name;  // Atualizando o nome
-//   profileDescription.textContent = formValues.info;  // Atualizando a descrição
-
-//   // Fechando o pop-up após atualizar o perfil
-//   editProfilePopup.close();
-// });
-
-// // Para abrir o pop-up de editar perfil
-// const editButton = document.querySelector(".profile__edit-button");
-// editButton.addEventListener("click", (e) => {
-//   e.preventDefault();
-//   const nameInput = document.querySelector(".pop-up__form-input-name");
-//   const infoInput = document.querySelector(".pop-up__form-input-info");
-
-//   // Preenchendo os campos do formulário com os valores atuais do perfil
-//   nameInput.value = document.querySelector(".profile__info-user").textContent;
-//   infoInput.value = document.querySelector(".profile__description").textContent;
-
-//   // Remover a classe disable para abrir o pop-up
-//   const popup = document.querySelector(".pop-up");
-//   popup.classList.remove('disable');
-
-//   // Abrir o pop-up de editar perfil
-//   editProfilePopup.open();
-// });
 
 // POPUP DE ADICIONAR POST
 const addPostPopup = new PopupWithForm(".pop-up_type_add-post", (formValues) => {
@@ -178,17 +127,25 @@ addPostButton.addEventListener("click", (e) => {
   editProfilePopup.close(); // Garante que o popup de editar perfil será fechado
 });
 
-// Prevenir o comportamento de submit nos formulários de editar perfil e adicionar post
+// Prevenir o comportamento de submit nos formulários de adicionar post
 addPostForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  const title = postTitleInput.value;
-  const link = postLinkInput.value;
+  const tituloInput = document.getElementById("titulo");
+  const linkInput = document.getElementById("link");
 
-  // Adicionar o novo card ao início da lista
-  const cardGrid = document.querySelector(".card-grid");
-  const newCard = createCard({ name: title, link: link });
-  cardGrid.prepend(newCard);
+  if (tituloInput && linkInput) {
+    console.log("Título:", tituloInput.value);
+    console.log("Link:", linkInput.value);
 
-  addPostForm.reset();
-  closeAllPopups();
+    const newCard = createCard({
+      name: tituloInput.value,
+      link: linkInput.value
+    });
+
+    section.addItem(newCard);
+    addPostForm.reset();
+    closeAllPopups();
+  } else {
+    console.error('Erro: Elementos do formulário não foram encontrados.');
+  }
 });
