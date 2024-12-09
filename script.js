@@ -1,23 +1,23 @@
-import FormValidator from './formValidator.js';
-import Card from './card.js';
-import Section from './section.js';
-import PopupWithForm from './popupWithForm.js';
-import PopupWithImage from './popupWithImage.js';
-import UserInfo from './userInfo.js';
+import FormValidator from "./formValidator.js";
+import Card from "./card.js";
+import Section from "./section.js";
+import PopupWithForm from "./popupWithForm.js";
+import PopupWithImage from "./popupWithImage.js";
+import UserInfo from "./userInfo.js";
 
 // Configuração de validação
 const addPostValidationConfig = {
-  inputSelector: '.pop-up__input',
-  submitButtonSelector: '.pop-up__button_type_add-post',
-  activeButtonClass: 'pop-up__button_type_add-post-active',
-  errorClass: 'error-message'
+  inputSelector: ".pop-up__input",
+  submitButtonSelector: ".pop-up__button_type_add-post",
+  activeButtonClass: "pop-up__button_type_add-post-active",
+  errorClass: "error-message",
 };
 
 const editProfileValidationConfig = {
-  inputSelector: '.pop-up__form-input',
-  submitButtonSelector: '.pop-up__form-button',
-  activeButtonClass: 'pop-up__form-button-active',
-  errorClass: 'error-message'
+  inputSelector: ".pop-up__form-input",
+  submitButtonSelector: ".pop-up__form-button",
+  activeButtonClass: "pop-up__form-button-active",
+  errorClass: "error-message",
 };
 
 // Habilitar a validação do formulário de adicionar post
@@ -28,50 +28,70 @@ new FormValidator(addPostValidationConfig, addPostForm).enableValidation();
 const editProfileForm = document.getElementById("pop-up__form");
 new FormValidator(editProfileValidationConfig, editProfileForm).enableValidation();
 
+// POPUP DE IMAGEM
+const imagePopup = new PopupWithImage(".image-pop-up");
+
+// Função handleCardClick para abrir o pop-up com a imagem
+const handleCardClick = (link, name) => {
+  imagePopup.open(link, name);
+};
+
 // CARDS INICIAIS
 const initialCards = [
-  { name: "Vale de Yosemite", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg" },
-  { name: "Lago Louise", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg" },
-  { name: "Montanhas Carecas", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg" },
-  { name: "Latemar", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg" },
-  { name: "Parque Nacional da Vanoise", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg" },
-  { name: "Lago di Braies", link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg" },
+  {
+    name: "Vale de Yosemite",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
+  },
+  {
+    name: "Lago Louise",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
+  },
+  {
+    name: "Montanhas Carecas",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_bald-mountains.jpg",
+  },
+  {
+    name: "Latemar",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_latemar.jpg",
+  },
+  {
+    name: "Parque Nacional da Vanoise",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_vanoise.jpg",
+  },
+  {
+    name: "Lago di Braies",
+    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lago.jpg",
+  },
 ];
 
-// CRIA CARD
+// Função createCard
 function createCard(cardData) {
-  const card = new Card(cardData);
+  const card = new Card(cardData, "#card-template", handleCardClick);
   return card.getCardElement();
 }
 
 // CRIAÇÃO DA INSTÂNCIA DO SECTION E RENDERIZAÇÃO DOS CARDS
-const section = new Section({
-  items: initialCards,
-  renderer: (cardData) => {
-    const card = createCard(cardData);
-    section.addItem(card);
-  }
-}, '.card-grid');
+const section = new Section(
+  {
+    items: initialCards,
+    renderer: (cardData) => {
+      const card = createCard(cardData);
+      section.addItem(card);
+    },
+  },
+  ".card-grid"
+);
 
 // Renderiza os cards na inicialização
 section.renderItems();
 
 // FECHAR POPUPS
 function closeAllPopups() {
-  const popups = document.querySelectorAll('.pop-up, .image-pop-up');
-  popups.forEach(popup => {
-    popup.classList.add('disable');
+  const popups = document.querySelectorAll(".pop-up, .image-pop-up");
+  popups.forEach((popup) => {
+    popup.classList.add("disable");
   });
 }
-
-// POPUP DE IMAGEM
-const imagePopup = new PopupWithImage(".image-pop-up");
-
-// Adicionar evento para abrir o popup de imagem
-const imageElements = document.querySelectorAll(".card__image");
-imageElements.forEach(image => {
-  image.addEventListener("click", () => imagePopup.open(image.src, image.alt));
-});
 
 // Instância da classe UserInfo
 const userInfo = new UserInfo({
@@ -106,7 +126,6 @@ editButton.addEventListener("click", () => {
   editProfilePopup.open();
 });
 
-
 // POPUP DE ADICIONAR POST
 const addPostPopup = new PopupWithForm(".pop-up_type_add-post", (formValues) => {
   const cardData = {
@@ -120,7 +139,6 @@ const addPostPopup = new PopupWithForm(".pop-up_type_add-post", (formValues) => 
 
 // Botões para abrir os popups
 const addPostButton = document.querySelector(".profile__add-post"); // Botão de adicionar post
-
 addPostButton.addEventListener("click", (e) => {
   e.preventDefault(); // Previne o comportamento padrão de submissão
   addPostPopup.open(); // Abre o popup de adicionar post
@@ -139,13 +157,13 @@ addPostForm.addEventListener("submit", (event) => {
 
     const newCard = createCard({
       name: tituloInput.value,
-      link: linkInput.value
+      link: linkInput.value,
     });
 
     section.addItem(newCard);
     addPostForm.reset();
     closeAllPopups();
   } else {
-    console.error('Erro: Elementos do formulário não foram encontrados.');
+    console.error("Erro: Elementos do formulário não foram encontrados.");
   }
 });

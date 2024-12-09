@@ -14,7 +14,7 @@
 
 <body>
 
-  <!-- POP UP IMAGEM  -->
+  <!-- POP UP IMAGEM -->
   <section class="image-pop-up disable">
     <div class="image-pop-up__box">
       <img src="/" alt="Image Preview" class="image-pop-up__image" />
@@ -23,19 +23,16 @@
     </div>
   </section>
 
-
-
-
   <!-- POPUP PROFILE -->
   <section class="pop-up disable">
     <div class="pop-up__box">
       <h2 class="pop-up__box-text">Editar Perfil</h2>
       <form id="pop-up__form" class="pop-up__form">
         <input id="name" name="name" type="text" class="pop-up__form-input-name pop-up__form-input" minlength="2"
-          maxlength="40" placeholder="Nome" required>
+          maxlength="40" placeholder="Nome" required />
         <span id="name-error" class="error-message"></span>
         <input id="info" name="info" type="text" class="pop-up__form-input-info pop-up__form-input" minlength="2"
-          maxlength="200" placeholder="Sobre" required>
+          maxlength="200" placeholder="Sobre" required />
         <span id="info-error" class="error-message"></span>
 
         <button type="submit" class="pop-up__form-button">Salvar</button>
@@ -44,7 +41,7 @@
     </div>
   </section>
 
-  <!-- POP ADD POST  -->
+  <!-- POP ADD POST -->
   <section class="pop-up pop-up_type_add-post disable">
     <div class="pop-up__box pop-up__box_type_add-post">
       <h2 class="pop-up__title">Novo Local</h2>
@@ -52,8 +49,8 @@
         <input id="titulo" type="text" name="titulo" class="pop-up__input pop-up__input_type_title" placeholder="Título"
           minlength="2" maxlength="40" required />
         <span id="titulo-error" class="error-message"></span>
-        <input id="link" type="url" name="link" class="pop-up__input pop-up__input_type_link" placeholder="Link da Imagem"
-          required />
+        <input id="link" type="url" name="link" class="pop-up__input pop-up__input_type_link"
+          placeholder="Link da Imagem" required />
         <span id="link-error" class="error-message"></span>
         <button type="submit" class="pop-up__button_type_add-post">Adicionar</button>
       </form>
@@ -63,7 +60,7 @@
   </section>
 
   <div class="page">
-    <!-- HEADER SECTION  -->
+    <!-- HEADER SECTION -->
     <header class="header">
       <nav class="header__nav">
         <img src="./images/LOGO.png" alt="Logo AroundUS" class="header__logo" />
@@ -88,18 +85,26 @@
       </div>
     </header>
 
-    <!-- MAIN SECTION  -->
+    <!-- MAIN SECTION -->
     <main class="content">
       <section class="card-grid"></section>
     </main>
 
-    <!-- FOOTER SECTION  -->
+    <!-- TEMPLATE PARA OS CARDS -->
+    <template id="card-template">
+      <div class="card">
+        <img class="card__image" alt="" />
+        <div class="card__info">
+          <p class="card__title"></p>
+        </div>
+      </div>
+    </template>
+
+    <!-- FOOTER SECTION -->
     <footer class="footer">
       <p class="footer__text">© 2024 Around The U.S.</p>
     </footer>
   </div>
-
-
 </body>
 
 </html>

@@ -1,9 +1,9 @@
-// card.js
 export default class Card {
-  constructor(cardData, templateSelector) {
+  constructor(cardData, templateSelector, handleCardClick) {
     this._name = cardData.name;
     this._link = cardData.link;
     this._templateSelector = templateSelector;
+    this._handleCardClick = handleCardClick; // Função para abrir o pop-up
     this._element = this._getTemplate();
     this._image = this._element.querySelector(".card__image");
     this._nameElement = this._element.querySelector(".card__name");
@@ -47,22 +47,10 @@ export default class Card {
   }
 
   _setEventListeners() {
-    this._image.addEventListener("click", this._handleImageClick.bind(this));
+    // Adicionar evento para abrir o pop-up ao clicar na imagem
+    this._image.addEventListener("click", () => this._handleCardClick(this._link, this._name));
     this._deleteButton.addEventListener("click", this._handleDeleteClick.bind(this));
     this._likeButton.addEventListener("click", this._handleLikeClick.bind(this));
-  }
-
-  _handleImageClick() {
-    const imagePopUp = document.querySelector(".image-pop-up");
-    const popUpImage = imagePopUp.querySelector(".image-pop-up__image");
-    const popUpText = imagePopUp.querySelector(".image-pop-up__text");
-
-    popUpImage.src = this._image.src;
-    popUpText.textContent = this._name;
-    imagePopUp.classList.remove("disable");
-
-    document.addEventListener("keydown", this._closeOnEscape.bind(this));
-    document.addEventListener("click", this._closeOnClickOutside.bind(this));
   }
 
   _handleDeleteClick() {
@@ -81,21 +69,5 @@ export default class Card {
     this._image.src = this._link;
     this._image.alt = `${this._name} image`;
     return this._element;
-  }
-
-  _closeOnEscape(event) {
-    if (event.key === "Escape") {
-      document.querySelector(".image-pop-up").classList.add("disable");
-      document.removeEventListener("keydown", this._closeOnEscape.bind(this));
-      document.removeEventListener("click", this._closeOnClickOutside.bind(this));
-    }
-  }
-
-  _closeOnClickOutside(event) {
-    if (event.target.classList.contains("image-pop-up")) {
-      document.querySelector(".image-pop-up").classList.add("disable");
-      document.removeEventListener("keydown", this._closeOnEscape.bind(this));
-      document.removeEventListener("click", this._closeOnClickOutside.bind(this));
-    }
   }
 }
